@@ -2,10 +2,6 @@
  
 	KOTools is a collection of utilities and extensions for working with KnockoutJS
 
-## Test
-
-	You can test KOTools [here](http://jsguy.github.com/kotools/test.htm).
-
 ## Features
 
 	- Re-use the values in existing fields, rather than specifying in the model
