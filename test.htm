@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>KOTools test page</title>
+	<link rel="stylesheet" href="qunit/qunit-1.9.0.css">
+	<script src="knockout-2.1.0.min.js"></script>
+	<script src="kotools.js"></script>
+	<meta charset=utf-8 />
+</head>
+<body>
+	<div id="qunit"></div>
+	<script src="qunit/qunit-1.9.0.js"></script>
+
+	<div>
+		<input id="firstName" placeholder="First name" type="text" value="John" data-bind="valueInit: firstname"/>
+		<input id="lastName" placeholder="Last name" type="text" data-bind="valueInit: lastname"/>
+		<br/>
+		Your full name is: <span data-bind="text: fullname"></span>
+	</div>
+
+	<div>
+		<input id="sendSpam" type="checkbox" value="true" data-bind="valueInit: spam" checked/>
+		<label for="sendSpam">Spam me please!</label>
+	</div>
+
+	<div>
+		<input id="sendNewsletter" type="checkbox" data-bind="valueInit: newsLetter"/>
+		<label for="sendNewsletter">Send me your "news letter!"</label>
+	</div>
+
+	<div>
+		<label>Get weekly offers</label>
+		<div class='radioCollection'>
+			<input id="offersYes" value="true" name="offers" type="radio" data-bind="valueInit: offers"/>
+			<label for="offersYes">Yes</label>
+			<input id="offersNo" value="false" name="offers" type="radio" data-bind="valueInit: offers"/>
+			<label for="offersNo">No</label>
+		</div>
+	</div>
+
+	<div>
+		<label>How did you hear?</label>
+		<select id="howHeard" data-bind="valueInit: heard, optionsInit: heardOptions">
+			<option>Word of mouth</option>
+			<option value="googled" selected>Found on google</option>
+			<option value=3>Found on bing</option>
+		</select>
+	</div>
+
+	<script>
+		var Viewmodel = function(){
+			var self = this;
+			self.firstname = ko.observable();
+			self.lastname = ko.observable();
+			self.fullname = ko.computed({
+				read: function(){
+					var f = self.firstname(), l = self.lastname();
+					return ((f)? f: '' ) + ((l)? ' ' + self.lastname(): '');
+				}
+			});
+			self.spam = ko.observable();
+			self.offers = ko.observable();
+			self.newsLetter = ko.observable();
+			self.heard = ko.observable();
+			self.heardOptions = ko.observableArray();
+		}, viewmodel = new Viewmodel(),
+		o = [], s;
+
+		//	Debug the model for our test
+		ko.debugModel(viewmodel, {
+			quiet: true,
+			notify: function(name, value){
+				o.push(name, value);
+			}
+		});
+
+		//	Apply the model
+		ko.applyBindings(viewmodel);
+	</script>
+
+	<script>
+		s = o[13];
+
+		test( 'Execution order', function() {
+			ok(	o[1] === 'John' &&
+				o[2] === 'firstname' &&
+				o[3] === 'John' &&
+				o[4] === 'fullname' &&
+				o[5] === 'John' &&
+				o[6] === 'lastname' &&
+				o[8] === 'spam' &&
+				o[9] === 'true' &&
+				o[10] === 'heard' &&
+				o[11] === 'googled' &&
+				o[12] === 'heardOptions'
+			, "passed" );
+		});
+
+		test('Select options', function(){
+			ok( s[0].value === 'Word of mouth' &&
+				s[0].name === 'Word of mouth' &&
+				s[1].value === 'googled' &&
+				s[1].name === 'Found on google' &&
+				s[2].value === '3' &&
+				s[2].name === 'Found on bing'
+			, "correct");
+		})
+	</script>
+</body>
+</html>
