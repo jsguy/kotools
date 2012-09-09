@@ -4,7 +4,7 @@
 
 ## Test
 
-	You can test KOTools [here](http://jsguy.github.com/kotools/test.htm).
+There is a test page for KOTools [here](https://github.com/jsguy/kotools/blob/master/test.htm).
 
 ## Features
 
