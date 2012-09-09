@@ -4,7 +4,7 @@
 	kotools - tools for working with KnockoutJS
     
 	An expansion of KnockoutJS
-	
+
     Copyright (c) 2012 - jsguy.com
 
     Licence
@@ -12,7 +12,7 @@
     
 	(The MIT License)
 
-	Copyright (c) 2009-2010 TJ Holowaychuk &lt;tj@vision-media.ca&gt;
+	Copyright (c) 2012 jsguy
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
