@@ -7,39 +7,74 @@
 	<script src="knockout-2.1.0.min.js"></script>
 	<script src="kotools.js"></script>
 	<meta charset=utf-8 />
+	<style>
+		body 				{ font-family: verdana; font-size: 12px }
+		label				{ width: 200px; font-weight: bold; display: inline-block; }
+
+
+        /* Start of "Micro clearfix" */
+        .cf { zoom: 1; }
+        .cf:before,
+        .cf:after { content: ""; display: table; }
+        .cf:after { clear: both; }
+
+        .clear 				{ clear: both }
+		.fieldSurround 		{ float: left; width: 300px; margin-top: 16px }
+		.valueSurround		{ float: left; clear: left }
+
+		.radioCollection label 	{ width: inherit; }
+
+	</style>
 </head>
 <body>
 	<div id="qunit"></div>
 	<script src="qunit/qunit-1.9.0.js"></script>
 
-	<div>
-		<input id="firstName" placeholder="First name" type="text" value="John" data-bind="valueInit: firstname"/>
-		<input id="lastName" placeholder="Last name" type="text" data-bind="valueInit: lastname"/>
-		<br/>
+	<div class='fieldSurround'>
+		<label>Your name</label>
+		<div>
+			<input id="firstName" placeholder="First name" type="text" value="John" data-bind="valueInit: firstname"/>
+			<input id="lastName" placeholder="Last name" type="text" data-bind="valueInit: lastname"/>
+		</div>
+	</div>
+	<div class='valueSurround'>
 		Your full name is: <span data-bind="text: fullname"></span>
 	</div>
+	<div class='clear'></div>
 
-	<div>
+	<div class='fieldSurround'>
 		<input id="sendSpam" type="checkbox" value="true" data-bind="valueInit: spam" checked/>
 		<label for="sendSpam">Spam me please!</label>
 	</div>
+	<div class='valueSurround'>
+		You like spam: <span data-bind="text: spam"></span>
+	</div>
+	<div class='clear'></div>
 
-	<div>
+	<div class='fieldSurround'>
 		<input id="sendNewsletter" type="checkbox" data-bind="valueInit: newsLetter"/>
 		<label for="sendNewsletter">Send me your "news letter!"</label>
 	</div>
+	<div class='valueSurround'>
+		You want the newsletter: <span data-bind="text: newsLetter"></span>
+	</div>
+	<div class='clear'></div>
 
-	<div>
+	<div class='fieldSurround'>
 		<label>Get weekly offers</label>
 		<div class='radioCollection'>
-			<input id="offersYes" value="true" name="offers" type="radio" data-bind="valueInit: offers"/>
+			<input id="offersYes" value="yes" name="offers" type="radio" data-bind="valueInit: offers"/>
 			<label for="offersYes">Yes</label>
-			<input id="offersNo" value="false" name="offers" type="radio" data-bind="valueInit: offers"/>
+			<input id="offersNo" value="no" name="offers" type="radio" data-bind="valueInit: offers"/>
 			<label for="offersNo">No</label>
 		</div>
 	</div>
+	<div class='valueSurround'>
+		You like weekly offers: <span data-bind="text: offers"></span>
+	</div>
+	<div class='clear'></div>
 
-	<div>
+	<div class='fieldSurround'>
 		<label>How did you hear?</label>
 		<select id="howHeard" data-bind="valueInit: heard, optionsInit: heardOptions">
 			<option>Word of mouth</option>
@@ -47,6 +82,10 @@
 			<option value=3>Found on bing</option>
 		</select>
 	</div>
+	<div class='valueSurround'>
+		You heard by: <span data-bind="text: heard"></span>
+	</div>
+	<div class='clear'></div>
 
 	<script>
 		var Viewmodel = function(){
