@@ -36,9 +36,10 @@
 (function(ko){
 	//	Pass in a viewmodel to debug it
 	//	args: { notify: function(name, value, property){...}, quite: boolean }
-	//	notifier is a callback function for each notification, passed: name, value, property
+	//	notify is a callback function for each notification, passed: name, value, property
 	//	Concept borrowed from sole.js
 	ko.debugModel = function(model, args) {
+		args = args || {};
 		var quiet = (args.quiet !== undefined)? args.quiet: false;
 		//	Subscribe to all viewodel properties
 		for(var i in model) { if(model.hasOwnProperty(i)) {
