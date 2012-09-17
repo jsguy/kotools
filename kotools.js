@@ -72,18 +72,18 @@
 		Note: when using selectboxes, don't forget to add the optionsInit valueArray too - KO needs this to work properly with select boxes
 	*/
 	ko.bindingHandlers.valueInit = {
-		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+		init: function(element, valueAccessor, allBindingsAccessor) {
 			var et = element.type.toUpperCase(),
 				isRadioOrCheckbox = et === 'RADIO' || et === 'CHECKBOX';
 
 			if(isRadioOrCheckbox) {
-				ko.bindingHandlers.checked.init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+				ko.bindingHandlers.checked.init(element, valueAccessor, allBindingsAccessor);
 
 				if(element.checked) {
 					valueAccessor()(element.value);
 				}
 			} else {
-				ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+				ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor);
 				valueAccessor()(element.value);
 			}
 		},
@@ -113,7 +113,7 @@
 
 	*/
 	ko.bindingHandlers.optionsInit = {
-		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+		init: function(element, valueAccessor, allBindingsAccessor) {
 			var isSelect = (element.nodeName.toUpperCase() === 'SELECT'),
 				options = [],
 				allBindings = allBindingsAccessor(),
@@ -152,7 +152,7 @@
 					aba['optionsValue'] = 'value';
 					return aba;
 				};
-				ko.bindingHandlers.options.update(element, valueAccessor, newABA, viewModel, bindingContext);
+				ko.bindingHandlers.options.update(element, valueAccessor, newABA);
 			} else {
 				//	Warn that it's for selects only
 				if(window.console && console.warn) {
@@ -160,11 +160,11 @@
 				}
 			}
 		},
-		update: function(element, valueAccessor) {
+		update: function(element, valueAccessor, allBindingsAccessor) {
 			var isSelect = (element.nodeName.toUpperCase() === 'SELECT');
 
 			if(isSelect) {
-				ko.bindingHandlers.options.update(element, valueAccessor);
+				ko.bindingHandlers.options.update(element, valueAccessor, allBindingsAccessor);
 			} else {
 				//	Warn that it's for selects only
 				if(window.console && console.warn) {
