@@ -77,16 +77,30 @@
 				isRadioOrCheckbox = et === 'RADIO' || et === 'CHECKBOX';
 
 			if(isRadioOrCheckbox) {
+				ko.bindingHandlers.checked.init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+
 				if(element.checked) {
 					valueAccessor()(element.value);
 				}
-				ko.bindingHandlers.checked.init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
 			} else {
-				valueAccessor()(element.value);
 				ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
+				valueAccessor()(element.value);
+			}
+		},
+		update: function(element, valueAccessor) {
+			var et = element.type.toUpperCase(),
+				isRadioOrCheckbox = et === 'RADIO' || et === 'CHECKBOX';
+
+			if(isRadioOrCheckbox) {
+				ko.bindingHandlers.checked.update(element, valueAccessor);
+			} else {
+				ko.bindingHandlers.value.update(element, valueAccessor);
 			}
 		}
 	};
+
+	/*	Passthrough for radio and checkboxes */
+	ko.bindingHandlers.checkedInit = ko.bindingHandlers.valueInit;
 
 	/*	optionsInit - initialise selectbox options binding using the options of the selectbox
 
@@ -145,6 +159,19 @@
 					console.warn('optionsInit works only with selectboxes');
 				}
 			}
+		},
+		update: function(element, valueAccessor) {
+			var isSelect = (element.nodeName.toUpperCase() === 'SELECT');
+
+			if(isSelect) {
+				ko.bindingHandlers.options.update(element, valueAccessor);
+			} else {
+				//	Warn that it's for selects only
+				if(window.console && console.warn) {
+					console.warn('optionsInit works only with selectboxes');
+				}
+			}
 		}
+
 	};
 }(window.ko || {}));
