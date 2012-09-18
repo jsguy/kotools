@@ -14,6 +14,23 @@ Note: when using selectboxes, don't forget to add the optionsInit valueArray too
 
 Add KnockoutJS to your page, then include kotools.min.js. See test.htm for usage examples.
 
+## Quick example
+
+	<input placeholder="First name" type="text" value="John" data-bind="valueInit: firstname"/>
+	<input id="lastName" placeholder="Last name" value="Smith" type="text" data-bind="valueInit: lastname"/>
+	Your full name is: <span data-bind="text: fullname"></span>
+	<script>
+		var Viewmodel = function(){
+			var self = this;
+			self.firstname = ko.observable();
+			self.lastname = ko.observable();
+		}, viewmodel = new Viewmodel();
+
+		ko.applyBindings(viewmodel);
+	</script>
+
+The full name will show as "John Smith"; this is usually not possible with plain KnockoutJS
+
 ## License
 
 (The MIT License)
