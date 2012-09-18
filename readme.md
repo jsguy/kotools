@@ -1,14 +1,18 @@
 # KOTools - tools for working with KnockoutJS
  
-	KOTools is a collection of utilities and extensions for working with KnockoutJS
+KOTools is a collection of utilities and extensions for working with KnockoutJS
 
 ## Features
 
-	- Re-use the values in existing fields, rather than specifying in the model
-	- Binding check boxes and radios to 'checked' attribute no longer necessary, just use valueInit, and this will do the rest
-	- Binding selects is a lot simpler, we automatically set the optionText and optionValue, so you don't have to
+* Re-use the values in existing fields, rather than specifying in the model
+* Binding check boxes and radios to 'checked' attribute no longer necessary, just use valueInit, and this will do the rest
+* Binding selects is a lot simpler, we automatically set the optionText and optionValue, so you don't have to
 
-	Note: when using selectboxes, don't forget to add the optionsInit valueArray too - KO needs this to work properly with select boxes; this won't work with optionsCaption - provide an empty option yourself instead.
+Note: when using selectboxes, don't forget to add the optionsInit valueArray too - KO needs this to work properly with select boxes; this won't work with optionsCaption - provide an empty option yourself instead.
+
+## How to use
+
+Add KnockoutJS to your page, then include kotools.min.js. See test.htm for usage examples.
 
 ## License
 
