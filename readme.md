@@ -29,7 +29,7 @@ Add KnockoutJS to your page, then include kotools.min.js. See test.htm for usage
 		ko.applyBindings(viewmodel);
 	</script>
 
-The full name will show as "John Smith"; this is usually not possible with plain KnockoutJS
+The full name will show as "John Smith"; this kind of initilisation is not possible with plain KnockoutJS
 
 ## License
 
