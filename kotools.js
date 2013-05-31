@@ -86,7 +86,7 @@
 				}
 			} else if(isSelect) {
 				//  Grab value or the text if no value set ("" is for IE's sillyness)
-				op = element.options[element.selectedIndex];
+				op = (element.selectedIndex)? element.options[element.selectedIndex]: "";
 				val = (op.value !== undefined && op.value !== "") ? op.value: op.text;
 			}
 
@@ -98,8 +98,14 @@
 					va(val);
 				}
 			}
-			//  Pass through to KO value
-			ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor, context);
+
+			if (isRadioOrCheckbox) {
+				//  Pass through to KO checked
+				ko.bindingHandlers.checked.init(element, valueAccessor, allBindingsAccessor, context);
+			} else {
+				//  Pass through to KO value
+				ko.bindingHandlers.value.init(element, valueAccessor, allBindingsAccessor, context);
+			}
 		},
 		update: function (element, valueAccessor) {
 			var et = element.type.toUpperCase(),
