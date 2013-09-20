@@ -138,7 +138,8 @@
 			var isSelect = (element.nodeName.toUpperCase() === 'SELECT'),
 				options = [],
 				allBindings = allBindingsAccessor(),
-				va, op, i, value, name;
+				va, op, opItem, i, value, name,
+				attr, atName, j;
 
 			if (isSelect) {
 				for (i = 0; i < element.options.length; i += 1) {
@@ -147,24 +148,30 @@
 					value = (op.value !== undefined && op.value !== "") ? op.value: op.text;
 
 					name = ('' + op.text) || op.value;
+					opItem = { value: value, name: name };
+
+					//	Find any "data-ko-?", and add to options object, so that we can easily have complex data models
+					for (j = 0; j < op.attributes.length; j += 1) {
+						attr = op.attributes.item(j);
+						atName = attr.nodeName;
+						if(atName.indexOf('data-ko-') == 0) {
+							atName = atName.substr(8);
+							opItem[atName] = attr.nodeValue;
+						}
+					}
 
 					//  Preserve both value and name
-					options.push({
-						value: value,
-						name: name
-					});
+					options.push(opItem);
 				}
 
 				va = valueAccessor();
 
 				//  Set the values
 				if (typeof va === 'function') {
-					valueAccessor()(options);
+					va(options);
 				} else {
 					//  Warn that they probably used a function for the options
-					if (window.console && console.warn) {
-						console.warn('optionsInit needs an observableArray for the valueAccessor. Most likely you declared your "optionsInit: theOptions()", removed the brackets, so you get optionsInit: theOptions');
-					}
+					window.console && console.warn('optionsInit needs an observableArray for the valueAccessor. Most likely you declared your "optionsInit: theOptions()", removed the brackets, so you get optionsInit: theOptions');
 				}
 
 				//  Override the allBindingsAccessor, so we can set the optionsText and optionsValue
@@ -179,9 +186,7 @@
 				ko.bindingHandlers.options.update(element, valueAccessor, newABA);
 			} else {
 				//  Warn that it's for selects only
-				if (window.console && console.warn) {
-					console.warn('optionsInit works only with selectboxes');
-				}
+				window.console && console.warn('optionsInit works only with selectboxes');
 			}
 		}
 	};
