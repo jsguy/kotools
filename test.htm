@@ -95,6 +95,19 @@
 	</div>
 	<div class='clear'></div>
 
+	<div class='fieldSurround'>
+		<label>Coffee complex data select</label>
+		<select data-bind="valueInit: coffee, optionsInit: coffeeOptions">
+			<option data-ko-price="3.40">Cappuccino</option>
+			<option data-ko-price="3.90" value="Latte" selected>Large Latte</option>
+			<option data-ko-price="3.20" value="Longblack">Long black</option>
+		</select>
+	</div>
+	<div class='valueSurround'>
+		Your coffee: <span data-bind="text: coffeeText().value + ' ' + coffeeText().price"></span>
+	</div>
+	<div class='clear'></div>
+
 	<script>
 		var Viewmodel = function(){
 			var self = this;
@@ -112,6 +125,20 @@
 			self.newsLetter = ko.observable();
 			self.heard = ko.observable();
 			self.heardOptions = ko.observableArray();
+
+			self.coffee = ko.observable();
+			self.coffeeOptions = ko.observableArray();
+			//	Computed to get the coffee complex object
+			self.coffeeText = ko.computed({
+				read: function(){
+					var value = self.coffee(),
+						coffees = ko.utils.arrayFilter(self.coffeeOptions(), function(data) {
+							return !!(data.value == value);
+						});
+					return (coffees && coffees.length == 1)? coffees[0]: { value: "Not selected", price: "0.00" };
+				}
+			});
+
 		}, viewmodel = new Viewmodel(),
 		o = [], s;
 
@@ -128,7 +155,8 @@
 	</script>
 
 	<script>
-		s = o[13];
+		var s = o[13],
+			s2 = o[23];
 
 		test( 'Execution order and content', function() {
 			ok(	o[1] === 'John' &&
@@ -143,7 +171,8 @@
 				o[11] === 'googled' &&
 				o[12] === 'heardOptions' &&
 				o[14] === 'comments' &&
-				o[15] === 'This is the most "instantly useful" thing I\'ve ever seen!'
+				o[15] === 'This is the most "instantly useful" thing I\'ve ever seen!',
+				o[16] === 'coffeeText'
 			, "passed" );
 		});
 
@@ -154,6 +183,16 @@
 				s[1].name === 'Found on google' &&
 				s[2].value === '3' &&
 				s[2].name === 'Found on bing'
+			, "correct");
+			ok( s2[0].value === 'Cappuccino' &&
+				s2[0].name === 'Cappuccino' &&
+				s2[0].price === '3.40' &&
+				s2[1].value === 'Latte' &&
+				s2[1].name === 'Large Latte' &&
+				s2[1].price === '3.90' &&
+				s2[2].value === 'Longblack' &&
+				s2[2].name === 'Long black' &&
+				s2[2].price === '3.20'
 			, "correct");
 		})
 	</script>
