@@ -113,7 +113,15 @@
 
 			//  Pass through to KO
 			if (isRadioOrCheckbox) {
-				ko.bindingHandlers.checked.update(element, valueAccessor);
+				//	From: http://stackoverflow.com/questions/19085819/jquery-mobile-and-knockout-checkbox-not-updating-with-viewmodel
+		        //KO v3 does not use 'update' for 'checked' binding
+		        if (ko.bindingHandlers.checked.update) { 
+		            ko.bindingHandlers.checked.update.apply(this, arguments); //for KO < v3, delegate the call
+		        } else {
+		            ko.utils.unwrapObservable(valueAccessor()); //for KO v3, force a subscription to get further updates
+				}
+
+
 			} else {
 				ko.bindingHandlers.value.update(element, valueAccessor);
 			}
