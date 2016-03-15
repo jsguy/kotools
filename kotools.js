@@ -182,16 +182,12 @@
 					window.console && console.warn('optionsInit needs an observableArray for the valueAccessor. Most likely you declared your "optionsInit: theOptions()", removed the brackets, so you get optionsInit: theOptions');
 				}
 
-				//  Override the allBindingsAccessor, so we can set the optionsText and optionsValue
-				var newABA = function () {
-					var aba = allBindingsAccessor();
-					aba['optionsText'] = 'name';
-					aba['optionsValue'] = 'value';
-					return aba;
-				};
+		                //  Override the optionsText and optionsValue
+		                allBindingsAccessor['optionsText'] = 'name';
+		                allBindingsAccessor['optionsValue'] = 'value';
 
 				//  Pass through to KO
-				ko.bindingHandlers.options.update(element, valueAccessor, newABA);
+				ko.bindingHandlers.options.update(element, valueAccessor, allBindingsAccessor);
 			} else {
 				//  Warn that it's for selects only
 				window.console && console.warn('optionsInit works only with selectboxes');
